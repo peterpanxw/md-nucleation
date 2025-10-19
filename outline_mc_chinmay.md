@@ -25,7 +25,7 @@ The goal is to use random sampling to explore molecular configurations and evalu
   - Final molecular configurations
 
 ## 5. Notes
-- Periodic boundary conditions (PBC) should be applied.
+- Periodic boundary conditions should be applied.
 
-## 5. Next Steps
+## 6. Next Steps
 Chinmay: implement algorithm (`monte_carlo.py`)
