@@ -51,8 +51,11 @@ def monte_carlo_move(positions, box_size):
     return new_positions
 
 def monte_carlo_simulation(num_particles, box_size, num_iterations, temperature):
-    positions, velocities = initialize_system(num_particles, box_size)
+    positions, velocities = initialize_system(num_particles)
     current_energy = compute_potential_energy(positions)
+
+    acc = 0
+    rej = 0
     
     for iteration in range(num_iterations):
         new_positions = monte_carlo_move(positions, box_size)
@@ -62,17 +65,22 @@ def monte_carlo_simulation(num_particles, box_size, num_iterations, temperature)
         if delta_energy < 0 or random.random() < np.exp(-delta_energy / temperature):
             positions = new_positions
             current_energy = new_energy
-            
-    return positions, current_energy
+            acc += 1
+        else:
+            rej += 1
+
+    return positions, current_energy, acc, rej
 
 def histogram_energy(energies, num_bins):
     hist, bin_edges = np.histogram(energies, bins=num_bins)
     return hist, bin_edges
 
-def save_results(positions, energy, file_path):
+def save_results(positions, energy, ratio, file_path):
     # Placeholder for saving results to a file
     with open(file_path, 'w') as f:
         f.write(f"Final Energy: {energy}\n")
+        f.write(f"Average Energy: {np.mean(energy)}\n")
+        f.write(f"Acceptance Ratio: {ratio}\n")
         f.write("Final Positions:\n")
         for pos in positions:
             f.write(f"{pos[0]} {pos[1]} {pos[2]}\n")
@@ -84,5 +92,6 @@ if __name__ == "__main__":
     num_iterations = 500
     temperature = 1.0
     
-    final_positions, final_energy = monte_carlo_simulation(num_particles, box_size, num_iterations, temperature)
+    final_positions, final_energy, acc, rej = monte_carlo_simulation(num_particles, box_size, num_iterations, temperature)
     print("Final Energy:", final_energy)
+    save_results(final_positions, final_energy, acc / rej, "results.txt")
