@@ -56,20 +56,3 @@ def potential_energy(positions, box_length):
             Total potential energy.
     """
     pass
-
-
-def cutoff_correction(rcut, rho, epsilon, sigma):
-    """
-    Apply cutoff correction to potential energy.
-
-    Parameters:
-        rcut: float
-            Cutoff distance.
-        rho: float
-            Particle number density.
-        epsilon: float
-            LJ potential epsilon parameter.
-        sigma: float
-            LJ potential sigma parameter.
-    """
-    pass
