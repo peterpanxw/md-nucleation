@@ -18,6 +18,10 @@ def read_configuration(file_path):
         Initial positions of the particles.
     box_size : float
         Size of the simulation box.
+
+    Example usage
+    -------------
+    positions, box_size = read_configuration("config.txt")
     """
     # Placeholder for reading configuration from a file
     # In practice, this would parse a file and extract positions, box size, etc.
