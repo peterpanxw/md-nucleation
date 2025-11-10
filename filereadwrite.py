@@ -1,31 +1,54 @@
 import os
+import json
+from datetime import datetime
 
-# Parse Input
 def parse_input(data):
     """
-    Parse input for the following parameters:
-        - number of atoms (N)
-        - box dimensions (L)
-        - time steps (time_steps)
-        - temperature (T)
-        - pressure (P)
-        - initial positions of atoms
-        - initial velocities of atoms
-        - atomic masses
-    Assumes the following inputs and may be subject to change in future versions:
-        - cube box shape
-        - periodic boundary conditions
-        - lennard-jones potential
-        - velocity verlet integration
+    Parse simulation input data for key molecular dynamics parameters.
+
+    Parameters
+    ----------
+    data : list of str
+        Lines from an input file containing simulation parameters.
+
+    Returns
+    -------
+    dict
+        Dictionary mapping parameter keywords to their corresponding values:
+        - 'n' : int
+            Number of atoms.
+        - 'l' : float
+            Box length (assumed cubic box).
+        - 'time_steps' : int
+            Total number of MD time steps.
+        - 't' : float
+            Temperature in Kelvin.
+        - 'p' : float
+            Pressure in bar.
+        - 'positions' : list of str
+            Initial positions of atoms.
+        - 'velocities' : list of str
+            Initial velocities of atoms.
+        - 'masses' : list of str
+            Atomic masses.
+
+    Raises
+    ------
+    ValueError
+        If an unexpected keyword is encountered in the input data.
+
+    Examples
+    --------
+    >>> data = ["N 2", "L 10.0", "time_steps 100", "T 300", "P 1.0"]
+    >>> params = parse_input(data)
+    >>> params["t"]
+    '300'
     """
-    # match keywords to expected parameters in line and store in dictionary
     parameter_dict = {}
     for line in data:
         keyword = line.split()[0].lower()
-        # if single input parameter - N, L, time_steps, T, P
         if keyword in ['n', 'l', 'time_steps', 't', 'p']:
             parameter_dict[keyword] = line.strip().split()[1]
-        # if multiple input parameters - positions, velocities, masses, read lines until hit ###
         elif keyword in ['positions', 'velocities', 'masses']:
             values = []
             for subline in data[data.index(line)+1:]:
@@ -37,33 +60,85 @@ def parse_input(data):
             raise ValueError(f"Unexpected keyword '{keyword}' in input data.")
     return parameter_dict
 
-# Read data from an input file (containing number of atoms, grid dimensions, etc.)
+
 def read_input_file(file_path):
     """
-    Read data from an input file and parses input file for simulation parameters.
+    Read and parse an input file for molecular dynamics simulation parameters.
+
+    Parameters
+    ----------
+    file_path : str
+        Path to the input file containing simulation parameters.
+
+    Returns
+    -------
+    dict
+        Parsed simulation parameters (see `parse_input`).
     """
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding='utf-8') as file:
         data = file.readlines()
         parameter_dict = parse_input(data)
     return parameter_dict
 
-# Write program output to a file (containing final positions of atoms, energies, etc.)
+
 def write_output_file(file_path, data):
     """
-    Write data obtained from MD simulation to an output file.
+    Write simulation output data (e.g., energies, coordinates) to a file.
+
+    Parameters
+    ----------
+    file_path : str
+        Path to the output file.
+    data : list of str
+        List of strings representing simulation results or snapshots.
     """
-    with open(file_path, 'w') as file:
-        file.writelines(data)
+    try:
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.writelines(data)
+    except Exception as e:
+        print(f"Error writing to {file_path}: {e}")
 
 
-# Append logs to a log file (containing simulation progress, errors, etc.)
 def append_log_file(file_path, log_data):
     """
-    Append log data to a log file with the following information:
-        - timestamp
-        - simulation step
-        - energy values
-        - error messages (if any)
+    Append log information (progress or errors) to an existing log file.
+
+    Parameters
+    ----------
+    file_path : str
+        Path to the log file.
+    log_data : list of str
+        List of log entries (strings) to append to the file.
     """
-    with open(file_path, 'a') as file:
+    with open(file_path, 'a', encoding='utf-8') as file:
         file.writelines(log_data)
+
+
+def save_checkpoint(file_path, positions, velocities, step):
+    """
+    Save a simulation checkpoint file for restarting MD runs.
+
+    Parameters
+    ----------
+    file_path : str
+        Path to the checkpoint file (recommended: `.json` extension).
+    positions : list of list of float
+        Atomic positions at the current step.
+    velocities : list of list of float
+        Atomic velocities at the current step.
+    step : int
+        Current simulation step number.
+    """
+    checkpoint = {
+        "step": step,
+        "timestamp": datetime.now().isoformat(),
+        "positions": positions,
+        "velocities": velocities
+    }
+    try:
+        with open(file_path, 'w', encoding='utf-8') as file:
+            json.dump(checkpoint, file, indent=4)
+        return True
+    except Exception as e:
+        print(f"Error saving checkpoint: {e}")
+        return False
