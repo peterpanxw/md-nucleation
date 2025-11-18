@@ -19,7 +19,7 @@ def parse_input(data):
             Number of atoms.
         - 'l' : float
             Box length (assumed cubic box).
-        - 'time_steps' : int
+        - 's' : int
             Total number of MD time steps.
         - 't' : float
             Temperature in Kelvin.
@@ -39,25 +39,45 @@ def parse_input(data):
 
     Examples
     --------
-    >>> data = ["N 2", "L 10.0", "time_steps 100", "T 300", "P 1.0"]
+    >>> data = ["N 2", "L 10.0", "S 100", "T 300", "P 1.0"]
     >>> params = parse_input(data)
     >>> params["t"]
     '300'
     """
     parameter_dict = {}
-    for line in data:
+    i = 0
+    n = len(data)
+
+    while i < n:
+        line = data[i].strip()
+        if not line:  # skip empty lines
+            i += 1
+            continue
+
         keyword = line.split()[0].lower()
-        if keyword in ['n', 'l', 'time_steps', 't', 'p']:
-            parameter_dict[keyword] = line.strip().split()[1]
+
+        # --- Single-value keywords --- #
+        if keyword in ['n', 'l', 's', 't', 'p']:
+            parameter_dict[keyword] = line.split()[1]
+            i += 1
+
+        # --- Block-style keywords --- #
         elif keyword in ['positions', 'velocities', 'masses']:
             values = []
-            for subline in data[data.index(line)+1:]:
-                if subline.strip() == "###":
-                    break
-                values.append(subline.strip())
+            i += 1  # move to next line after keyword
+            while i < n and data[i].strip() != "###":
+                values.append(data[i].strip())
+                i += 1
+
             parameter_dict[keyword] = values
+
+            # skip the "###"
+            if i < n and data[i].strip() == "###":
+                i += 1
+
         else:
             raise ValueError(f"Unexpected keyword '{keyword}' in input data.")
+
     return parameter_dict
 
 
