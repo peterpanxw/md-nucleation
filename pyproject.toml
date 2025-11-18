@@ -1,0 +1,23 @@
+[project]
+name = "md-nucleation"
+version = "0.1.0"
+description = "An lightweight MD simulator for identifying conditions for nucleation."
+readme = "README.md"
+authors = [
+    { name = "Andrew K.", email = "andrewkim@princeton.edu" },
+    { name = "Chinmay S.", email = ""},
+    { name = "Xiewei P.", email = ""}
+]
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.3.5",
+    "scipy>=1.16.3",
+    "typer>=0.20.0",
+]
+
+[project.scripts]
+md-nucleation = "md_nucleation:main"
+
+[build-system]
+requires = ["uv_build>=0.8.15,<0.9.0"]
+build-backend = "uv_build"
