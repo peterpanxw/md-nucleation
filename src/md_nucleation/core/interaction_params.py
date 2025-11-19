@@ -1,3 +1,5 @@
+from md_nucleation.core.default_params import UFF_LJ_PARAMS
+
 def validate_type_params(type_params):
     """
     Validate that each atom type has numeric sigma and epsilon.
@@ -21,18 +23,15 @@ def validate_type_params(type_params):
             raise ValueError(f"Missing sigma for atom type '{atom_type}'.")
         if "epsilon" not in params:
             raise ValueError(f"Missing epsilon for atom type '{atom_type}'.")
-
         try:
             float(params["sigma"])
-        except:
-            raise ValueError(f"sigma for atom type '{atom_type}' must be numeric.")
-
-        try:
             float(params["epsilon"])
         except:
-            raise ValueError(f"epsilon for atom type '{atom_type}' must be numeric.")
-
+            raise ValueError(
+                f"sigma and epsilon for atom type '{atom_type}' must be numeric."
+            )
     return True
+
 
 
 def lorentz_berthelot_mixing(sigma_i, sigma_j, epsilon_i, epsilon_j):
@@ -44,7 +43,7 @@ def lorentz_berthelot_mixing(sigma_i, sigma_j, epsilon_i, epsilon_j):
     return mixed_sigma, mixed_epsilon
 
 
-def build_lj_interaction_table(type_params):
+def build_lj_interaction_table(type_params=None):
     """
     Build a complete Lennard-Jones parameter table using mixing rules.
 
@@ -68,6 +67,10 @@ def build_lj_interaction_table(type_params):
         }
     """
 
+    # --- Default to UFF if no params given --- #
+    if type_params is None:
+        type_params = UFF_LJ_PARAMS
+
     validate_type_params(type_params)
 
     table = {}
@@ -75,8 +78,7 @@ def build_lj_interaction_table(type_params):
 
     for i in range(len(types)):
         for j in range(i, len(types)):
-            ti = types[i]
-            tj = types[j]
+            ti, tj = types[i], types[j]
 
             sigma_i = float(type_params[ti]["sigma"])
             epsilon_i = float(type_params[ti]["epsilon"])
@@ -88,8 +90,7 @@ def build_lj_interaction_table(type_params):
                 sigma_i, sigma_j, epsilon_i, epsilon_j
             )
 
-            # Store symmetric pair
             table[(ti, tj)] = {"sigma": sigma_ij, "epsilon": epsilon_ij}
-            table[(tj, ti)] = {"sigma": sigma_ij, "epsilon": epsilon_ij}
+            table[(tj, ti)] = table[(ti, tj)]  # symmetric
 
     return table
