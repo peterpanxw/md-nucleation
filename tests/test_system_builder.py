@@ -5,7 +5,7 @@ from md_nucleation.core.system_builder import (
     CubicBox,
     System
 )
-
+from md_nucleation.core.default_params import UFF_LJ_PARAMS
 
 # --- Test System Builder: Valid Construction --- #
 
@@ -74,3 +74,34 @@ def test_build_system_count_mismatch():
         build_system_from_input(params)
 
     assert "Expected 2 particles" in str(excinfo.value)
+
+
+# --- Test System Builder: LJ Interaction Table --- #
+
+def test_system_has_lj_table():
+    params = {
+        "n": "2",
+        "l": "10.0",
+        "s": "100",
+        "t": "300",
+        "p": "1.0",
+        "positions": [
+            "H 0.0 0.0 0.0",
+            "O 1.0 1.0 1.0"
+        ]
+    }
+
+    system = build_system_from_input(params)
+
+    # LJ table must exist
+    assert system.interaction_table is not None, "LJ interaction table is missing."
+
+    # Check that H–O exists
+    assert ("H", "O") in system.interaction_table
+
+    # Verify defaults match UFF data
+    sigma_expected = 0.5 * (UFF_LJ_PARAMS["H"]["sigma"] + UFF_LJ_PARAMS["O"]["sigma"])
+    epsilon_expected = (UFF_LJ_PARAMS["H"]["epsilon"] * UFF_LJ_PARAMS["O"]["epsilon"]) ** 0.5
+
+    assert system.interaction_table[("H", "O")]["sigma"] == pytest.approx(sigma_expected)
+    assert system.interaction_table[("H", "O")]["epsilon"] == pytest.approx(epsilon_expected)

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from md_nucleation.io.validation import parse_typed_position
+from md_nucleation.core.interaction_params import build_lj_interaction_table
 
 
 @dataclass
@@ -22,6 +23,7 @@ class System:
     T: float
     P: float
     S: int
+    interaction_table: dict = None
 
 
 def build_system_from_input(params, mass_table=None):
@@ -78,10 +80,13 @@ def build_system_from_input(params, mass_table=None):
             f"System builder error: Expected {N} particles but built {len(particles)}."
         )
 
+    interaction_table = build_lj_interaction_table()
+
     return System(
         particles=particles,
         box=box,
         T=T,
         P=P,
-        S=S
+        S=S,
+        interaction_table=interaction_table
     )
