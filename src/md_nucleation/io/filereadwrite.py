@@ -1,6 +1,6 @@
-import os
 import json
 from datetime import datetime
+
 
 def parse_input(data):
     """
@@ -57,12 +57,12 @@ def parse_input(data):
         keyword = line.split()[0].lower()
 
         # --- Single-value keywords --- #
-        if keyword in ['n', 'l', 's', 't', 'p']:
+        if keyword in ["n", "l", "s", "t", "p"]:
             parameter_dict[keyword] = line.split()[1]
             i += 1
 
         # --- Block-style keywords --- #
-        elif keyword in ['positions', 'velocities', 'masses']:
+        elif keyword in ["positions", "velocities", "masses"]:
             values = []
             i += 1  # move to next line after keyword
             while i < n and data[i].strip() != "###":
@@ -95,7 +95,7 @@ def read_input_file(file_path):
     dict
         Parsed simulation parameters (see `parse_input`).
     """
-    with open(file_path, 'r', encoding='utf-8') as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         data = file.readlines()
         parameter_dict = parse_input(data)
     return parameter_dict
@@ -113,7 +113,7 @@ def write_output_file(file_path, data):
         List of strings representing simulation results or snapshots.
     """
     try:
-        with open(file_path, 'w', encoding='utf-8') as file:
+        with open(file_path, "w", encoding="utf-8") as file:
             file.writelines(data)
     except Exception as e:
         print(f"Error writing to {file_path}: {e}")
@@ -130,7 +130,7 @@ def append_log_file(file_path, log_data):
     log_data : list of str
         List of log entries (strings) to append to the file.
     """
-    with open(file_path, 'a', encoding='utf-8') as file:
+    with open(file_path, "a", encoding="utf-8") as file:
         file.writelines(log_data)
 
 
@@ -153,10 +153,10 @@ def save_checkpoint(file_path, positions, velocities, step):
         "step": step,
         "timestamp": datetime.now().isoformat(),
         "positions": positions,
-        "velocities": velocities
+        "velocities": velocities,
     }
     try:
-        with open(file_path, 'w', encoding='utf-8') as file:
+        with open(file_path, "w", encoding="utf-8") as file:
             json.dump(checkpoint, file, indent=4)
         return True
     except Exception as e:

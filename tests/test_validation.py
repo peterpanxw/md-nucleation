@@ -7,6 +7,7 @@ from md_nucleation.io.validation import (
 
 # --- Test parse_typed_position valid case --- #
 
+
 def test_parse_typed_position_valid():
     atom_type, x, y, z = parse_typed_position("A 1.0 2.0 3.0")
 
@@ -18,6 +19,7 @@ def test_parse_typed_position_valid():
 
 # --- Test parse_typed_position invalid atom type --- #
 
+
 def test_parse_typed_position_invalid_type():
     with pytest.raises(ValueError) as excinfo:
         parse_typed_position("1 0.0 0.0 0.0")
@@ -26,6 +28,7 @@ def test_parse_typed_position_invalid_type():
 
 
 # --- Test parse_typed_position non-numeric coordinates --- #
+
 
 def test_parse_typed_position_non_numeric():
     with pytest.raises(ValueError) as excinfo:
@@ -36,6 +39,7 @@ def test_parse_typed_position_non_numeric():
 
 # --- Test parse_typed_position wrong format --- #
 
+
 def test_parse_typed_position_wrong_format():
     with pytest.raises(ValueError) as excinfo:
         parse_typed_position("A 0.0 1.0")
@@ -44,6 +48,7 @@ def test_parse_typed_position_wrong_format():
 
 
 # --- Test validate_parsed_input: valid case --- #
+
 
 def test_validate_parsed_input_valid():
     params = {
@@ -62,6 +67,7 @@ def test_validate_parsed_input_valid():
 
 
 # --- Test validate_parsed_input: missing required field --- #
+
 
 def test_validate_parsed_input_missing_s():
     params = {
@@ -84,6 +90,7 @@ def test_validate_parsed_input_missing_s():
 
 # --- Test validate_parsed_input: invalid N type --- #
 
+
 def test_validate_parsed_input_invalid_n():
     params = {
         "n": "abc",  # invalid
@@ -104,6 +111,7 @@ def test_validate_parsed_input_invalid_n():
 
 
 # --- Test validate_parsed_input: position count mismatch --- #
+
 
 def test_validate_parsed_input_position_count_mismatch():
     params = {
@@ -126,6 +134,7 @@ def test_validate_parsed_input_position_count_mismatch():
 
 # --- Test validate_parsed_input: malformed position line --- #
 
+
 def test_validate_parsed_input_malformed_position():
     params = {
         "n": "2",
@@ -146,6 +155,7 @@ def test_validate_parsed_input_malformed_position():
 
 
 # --- Test validate_parsed_input: non-numeric coordinates --- #
+
 
 def test_validate_parsed_input_non_numeric_position():
     params = {

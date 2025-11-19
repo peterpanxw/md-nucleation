@@ -2,11 +2,12 @@ import pytest
 from md_nucleation.core.interaction_params import (
     validate_type_params,
     lorentz_berthelot_mixing,
-    build_lj_interaction_table
+    build_lj_interaction_table,
 )
 
 
 # --- Test Validate Type Parameters --- #
+
 
 def test_validate_type_params_valid():
     type_params = {
@@ -38,6 +39,7 @@ def test_validate_type_params_non_numeric():
 
 # --- Test Lorentz-Berthelot Mixing --- #
 
+
 def test_mixing_rules():
     sigma_ij, epsilon_ij = lorentz_berthelot_mixing(1.0, 0.5, 1.0, 0.25)
 
@@ -46,6 +48,7 @@ def test_mixing_rules():
 
 
 # --- Test Building LJ Interaction Table --- #
+
 
 def test_build_lj_interaction_table():
     type_params = {

@@ -13,7 +13,7 @@ class Particle:
 
 @dataclass
 class CubicBox:
-    length: float 
+    length: float
 
 
 @dataclass
@@ -83,10 +83,5 @@ def build_system_from_input(params, mass_table=None):
     interaction_table = build_lj_interaction_table()
 
     return System(
-        particles=particles,
-        box=box,
-        T=T,
-        P=P,
-        S=S,
-        interaction_table=interaction_table
+        particles=particles, box=box, T=T, P=P, S=S, interaction_table=interaction_table
     )

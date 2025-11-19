@@ -1,13 +1,9 @@
 import pytest
-from md_nucleation.core.system_builder import (
-    build_system_from_input,
-    Particle,
-    CubicBox,
-    System
-)
+from md_nucleation.core.system_builder import build_system_from_input, System
 from md_nucleation.core.default_params import UFF_LJ_PARAMS
 
 # --- Test System Builder: Valid Construction --- #
+
 
 def test_build_system_valid():
     params = {
@@ -16,10 +12,7 @@ def test_build_system_valid():
         "s": "100",
         "t": "300",
         "p": "1.0",
-        "positions": [
-            "A 0.0 0.0 0.0",
-            "B 1.0 1.0 1.0"
-        ]
+        "positions": ["A 0.0 0.0 0.0", "B 1.0 1.0 1.0"],
     }
 
     mass_table = {"A": 2.0, "B": 3.0}
@@ -43,6 +36,7 @@ def test_build_system_valid():
 
 # --- Test System Builder: Default Mass --- #
 
+
 def test_build_system_default_mass():
     params = {
         "n": "1",
@@ -59,6 +53,7 @@ def test_build_system_default_mass():
 
 
 # --- Test System Builder: Particle Count Mismatch --- #
+
 
 def test_build_system_count_mismatch():
     params = {
@@ -78,6 +73,7 @@ def test_build_system_count_mismatch():
 
 # --- Test System Builder: LJ Interaction Table --- #
 
+
 def test_system_has_lj_table():
     params = {
         "n": "2",
@@ -85,10 +81,7 @@ def test_system_has_lj_table():
         "s": "100",
         "t": "300",
         "p": "1.0",
-        "positions": [
-            "H 0.0 0.0 0.0",
-            "O 1.0 1.0 1.0"
-        ]
+        "positions": ["H 0.0 0.0 0.0", "O 1.0 1.0 1.0"],
     }
 
     system = build_system_from_input(params)
@@ -101,7 +94,13 @@ def test_system_has_lj_table():
 
     # Verify defaults match UFF data
     sigma_expected = 0.5 * (UFF_LJ_PARAMS["H"]["sigma"] + UFF_LJ_PARAMS["O"]["sigma"])
-    epsilon_expected = (UFF_LJ_PARAMS["H"]["epsilon"] * UFF_LJ_PARAMS["O"]["epsilon"]) ** 0.5
+    epsilon_expected = (
+        UFF_LJ_PARAMS["H"]["epsilon"] * UFF_LJ_PARAMS["O"]["epsilon"]
+    ) ** 0.5
 
-    assert system.interaction_table[("H", "O")]["sigma"] == pytest.approx(sigma_expected)
-    assert system.interaction_table[("H", "O")]["epsilon"] == pytest.approx(epsilon_expected)
+    assert system.interaction_table[("H", "O")]["sigma"] == pytest.approx(
+        sigma_expected
+    )
+    assert system.interaction_table[("H", "O")]["epsilon"] == pytest.approx(
+        epsilon_expected
+    )

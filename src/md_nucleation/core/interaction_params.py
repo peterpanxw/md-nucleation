@@ -1,5 +1,6 @@
 from md_nucleation.core.default_params import UFF_LJ_PARAMS
 
+
 def validate_type_params(type_params):
     """
     Validate that each atom type has numeric sigma and epsilon.
@@ -31,7 +32,6 @@ def validate_type_params(type_params):
                 f"sigma and epsilon for atom type '{atom_type}' must be numeric."
             )
     return True
-
 
 
 def lorentz_berthelot_mixing(sigma_i, sigma_j, epsilon_i, epsilon_j):

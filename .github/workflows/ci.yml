@@ -1,0 +1,81 @@
+name: md-nucleation-build-and-test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v1
+
+      - name: Cache uv virtualenvs and wheels
+        uses: actions/cache@v4
+        with:
+          path: |
+            .uv
+            .venv
+          key: ${{ runner.os }}-uv-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+
+      - name: Install project dependencies
+        run: uv sync --frozen
+
+      - name: Run tests
+        run: uv run pytest -vv --disable-warnings
+
+      - name: Upload coverage (optional)
+        if: success()
+        run: |
+          uv run pip install coverage
+          uv run coverage run -m pytest
+          uv run coverage xml
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: astral-sh/setup-uv@v1
+
+      - name: Run Ruff
+        run: uv run ruff check src tests
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: astral-sh/setup-uv@v1
+
+      - name: Install pyright
+        run: uv run pip install pyright
+
+      - name: Run pyright
+        run: uv run pyright

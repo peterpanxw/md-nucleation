@@ -11,14 +11,9 @@ from md_nucleation.io.filereadwrite import (
 
 # --- Test Parsing Basic Key-Fields --- #
 
+
 def test_parse_basic_fields():
-    data = [
-        "N 5",
-        "L 20.0",
-        "s 1000",
-        "T 300",
-        "P 1.0"
-    ]
+    data = ["N 5", "L 20.0", "s 1000", "T 300", "P 1.0"]
     params = parse_input(data)
 
     assert params["n"] == "5"
@@ -30,13 +25,9 @@ def test_parse_basic_fields():
 
 # --- Test Parsing Positions Block --- #
 
+
 def test_parse_positions_block():
-    data = [
-        "positions",
-        "A 0.0 0.0 0.0",
-        "A 1.0 1.0 1.0",
-        "###"
-    ]
+    data = ["positions", "A 0.0 0.0 0.0", "A 1.0 1.0 1.0", "###"]
 
     params = parse_input(data)
 
@@ -48,6 +39,7 @@ def test_parse_positions_block():
 
 # --- Test Reading from Real Input File --- #
 
+
 def test_read_input_file():
     test_file = pathlib.Path("tests/data/test_input.txt")
     params = read_input_file(test_file)
@@ -58,6 +50,7 @@ def test_read_input_file():
 
 
 # --- Test Writing an Output File --- #
+
 
 def test_write_output_file():
     with tempfile.NamedTemporaryFile("r+", delete=True) as tmp:
@@ -71,6 +64,7 @@ def test_write_output_file():
 
 # --- Test Appending to a Log File --- #
 
+
 def test_append_log_file():
     with tempfile.NamedTemporaryFile("r+", delete=True) as tmp:
         append_log_file(tmp.name, ["line1\n"])
@@ -83,13 +77,11 @@ def test_append_log_file():
 
 # --- Test Saving a Checkpoint --- #
 
+
 def test_save_checkpoint():
     with tempfile.NamedTemporaryFile("r+", delete=True) as tmp:
         ok = save_checkpoint(
-            tmp.name,
-            positions=[[0, 0, 0]],
-            velocities=[[1, 1, 1]],
-            step=42
+            tmp.name, positions=[[0, 0, 0]], velocities=[[1, 1, 1]], step=42
         )
 
         assert ok is True

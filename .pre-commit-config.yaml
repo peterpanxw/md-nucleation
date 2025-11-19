@@ -1,0 +1,28 @@
+repos:
+  # --- Fast formatting & linting BEFORE committing --- #
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.5.0
+    hooks:
+      - id: ruff
+        args: ["--fix-only"]
+        stages: [pre-commit]
+      - id: ruff-format
+        stages: [pre-commit]
+
+  # --- Basic file hygiene checks --- #
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        stages: [pre-commit]
+      - id: end-of-file-fixer
+        stages: [pre-commit]
+      - id: check-merge-conflict
+        stages: [pre-commit]
+
+  # --- Pyright SHOULD NOT RUN pre-commit (blocks commits) --- #
+  - repo: https://github.com/RobertCraigie/pyright-python
+    rev: v1.1.375
+    hooks:
+      - id: pyright
+        stages: [pre-push]

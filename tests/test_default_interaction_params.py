@@ -5,6 +5,7 @@ from md_nucleation.core.interaction_params import build_lj_interaction_table
 
 # --- Test Default UFF Parameters Are Loaded --- #
 
+
 def test_default_params_exist():
     # Check we have at least the 22 elements defined
     assert len(UFF_LJ_PARAMS) == 22
@@ -23,6 +24,7 @@ def test_default_params_exist():
 
 # --- Test Default Interaction Table Builds Correctly --- #
 
+
 def test_default_interaction_table_builds():
     table = build_lj_interaction_table()  # no user params → UFF loads automatically
 
@@ -36,6 +38,7 @@ def test_default_interaction_table_builds():
 
 # --- Test Symmetry of Mixing Rules --- #
 
+
 def test_default_interaction_symmetry():
     table = build_lj_interaction_table()
 
@@ -45,6 +48,7 @@ def test_default_interaction_symmetry():
 
 
 # --- Test Mixed Interaction Values Are Reasonable --- #
+
 
 def test_default_mixed_interaction_values():
     table = build_lj_interaction_table()
@@ -61,6 +65,7 @@ def test_default_mixed_interaction_values():
 
 
 # --- Test All Elements Have Self-Interactions --- #
+
 
 def test_self_interactions_exist():
     table = build_lj_interaction_table()

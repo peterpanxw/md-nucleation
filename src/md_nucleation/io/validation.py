@@ -15,9 +15,7 @@ def parse_typed_position(line):
     """
     parts = line.split()
     if len(parts) != 4:
-        raise ValueError(
-            f"Invalid position line '{line}'. Expected format: TYPE x y z"
-        )
+        raise ValueError(f"Invalid position line '{line}'. Expected format: TYPE x y z")
 
     atom_type, x, y, z = parts
 
@@ -51,7 +49,7 @@ def validate_parsed_input(params):
         "l": "box length (L)",
         "s": "number of time steps (S)",
         "t": "temperature (T)",
-        "p": "pressure (P)"
+        "p": "pressure (P)",
     }
 
     # Check missing keys
@@ -102,6 +100,6 @@ def validate_parsed_input(params):
 
     # --- Validate each typed position line --- #
     for i, line in enumerate(params["positions"]):
-        parse_typed_position(line)   # If invalid, raises useful errors
+        parse_typed_position(line)  # If invalid, raises useful errors
 
     return True  # All checks passed
