@@ -67,7 +67,7 @@ class InitializeSimulation:
         self.epsilon = np.array([eps.to_base_units().magnitude for eps in epsilon])  # Convert to SI base units
         self.sigma = np.array([sig.to_base_units().magnitude for sig in sigma])
         self.atom_mass = np.array([m.to_base_units().magnitude for m in atom_mass])
-
+        
         # Core simulation parameters
         self.box_dimensions = np.array([L.to_base_units().magnitude for L in box_dimensions])
         self.cut_off = cut_off.to_base_units().magnitude
@@ -79,14 +79,14 @@ class InitializeSimulation:
         self.atoms_sigma = np.repeat(self.sigma, self.number_atoms)
         self.atoms_epsilon = np.repeat(self.epsilon, self.number_atoms)
         self.atoms_mass = np.repeat(self.atom_mass, self.number_atoms)
-
+        
         # Run setup sequence for initialization
         self._define_box()
         self._populate_box()
         self._update_neighbor_lists()
         self._update_cross_coefficients()
-
-
+    
+    
     # ----------------------------------------------------------------------
     # Private setup methods
     # ----------------------------------------------------------------------
@@ -98,7 +98,7 @@ class InitializeSimulation:
         dimensions provided in `self.box_dimensions`. The box is
         symmetric about the origin and stored as lower and upper
         boundaries for each Cartesian direction. It also defines
-        the box size in MDAnalysis convention: ``[Lx, Ly, Lz, α, β, γ]``,
+        the box size in MDAnalysis convention: `[Lx, Ly, Lz, α, β, γ]`,
         where the last three are the box angles in degrees.
         
         Parameters
@@ -154,20 +154,20 @@ class InitializeSimulation:
         box_boundaries = np.zeros((3, 2))
         for i, L in enumerate(self.box_dimensions):
             box_boundaries[i] = [-L / 2, L / 2]
-
+        
         self.box_boundaries = box_boundaries
         lengths = np.diff(box_boundaries, axis=1).flatten()
         self.box_size = np.concatenate([lengths, np.array([90.0, 90.0, 90.0])])
-
-
+    
+    
     def _populate_box(self):
         """
         Place atoms in the defined simulation box.
         
         This internal method assigns initial coordinates to all atoms
         in the system. If no predefined coordinates are provided
-        (``self.initial_positions`` is None), atoms are placed randomly
-        within the cubic simulation box defined by ``self.box_boundaries``.
+        (`self.initial_positions` is None), atoms are placed randomly
+        within the cubic simulation box defined by `self.box_boundaries`.
         Otherwise, the provided array of positions is used directly.
         
         Parameters
@@ -191,7 +191,7 @@ class InitializeSimulation:
         ------
         ValueError
             If `initial_positions` is provided but its shape does not match
-            the expected ``(total_atoms, 3)``.
+            the expected `(total_atoms, 3)`.
         
         Examples
         --------
@@ -233,8 +233,8 @@ class InitializeSimulation:
                     f"Initial positions shape {positions.shape} does not match expected {(total_atoms, 3)}."
                 )
         self.atoms_positions = positions
-
-
+    
+    
     def _update_neighbor_lists(self, force_update=False):
         """
         Generate neighbor lists for each atom within cutoff radius.
@@ -302,7 +302,7 @@ class InitializeSimulation:
                 returntype="numpy",
                 box=self.box_size,
             )
-
+            
             neighbor_lists = []
             for i, row in enumerate(matrix[:-1]):
                 neighbors = np.where(row)[0]  # Neighbors becomes an array of all atom indices j that are close enough to atom i
@@ -362,7 +362,7 @@ class InitializeSimulation:
             raise AttributeError("Neighbor lists are not defined. Run `_update_neighbor_lists()` first.")
         if not hasattr(self, "sigma") or not hasattr(self, "epsilon"):
             raise AttributeError("LJ parameters (sigma, epsilon) must be defined before computing cross coefficients.")
-
+        
         # Validate sigma and epsilon arrays
         if np.any(np.array(self.sigma) <= 0) or np.any(np.array(self.epsilon) <= 0):
             raise ValueError("All sigma and epsilon values must be positive.")
