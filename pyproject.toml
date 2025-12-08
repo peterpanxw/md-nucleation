@@ -36,6 +36,12 @@ line-length = 88
 target-version = "py311"
 fix = true
 
+[tool.ruff.lint]
+ignore = [
+    "E722",  # bare except
+    "E741",  # ambiguous variable name
+]
+
 [tool.ruff.format]
 quote-style = "double"
 
@@ -44,3 +50,4 @@ pythonVersion = "3.11"
 include = ["src"]
 venvPath = "."
 venv = ".venv"
+reportAssignmentType = "none"
