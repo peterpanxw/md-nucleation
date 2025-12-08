@@ -60,6 +60,9 @@ jobs:
 
       - uses: astral-sh/setup-uv@v1
 
+      - name: Install project dependencies
+        run: uv sync --frozen
+
       - name: Run Ruff
         run: uv run ruff check src tests
 
@@ -73,6 +76,9 @@ jobs:
           python-version: "3.12"
 
       - uses: astral-sh/setup-uv@v1
+
+      - name: Install project dependencies
+        run: uv sync --frozen
 
       - name: Install pyright
         run: uv run pip install pyright
