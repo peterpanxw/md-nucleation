@@ -10,22 +10,22 @@ System Parameters:
   Total iterations: 1000
 
 Energy Statistics:
-  Final Energy: 167.967382
-  Average Energy: 2359.541664
-  Min Energy: 89.934121
+  Final Energy: 698.023803
+  Average Energy: 3036.733107
+  Min Energy: 408.545399
   Max Energy: 29059.449260
 
 Move Statistics:
-  Accepted moves: 445
-  Rejected moves: 55
-  Acceptance ratio: 0.8900
+  Accepted moves: 404
+  Rejected moves: 96
+  Acceptance ratio: 0.8080
 
 ============================================================
 Final Particle Positions:
 ============================================================
 Type              X            Y            Z
 ------------------------------------------------------------
-Ar        19.512390    19.589534    19.805558
-Ar         0.372731     1.774058     1.670729
-Ar         2.761712     2.135109     0.964165
+Ar        19.680995    19.667209    19.687310
+Ar         1.782354     0.602862     0.804396
+Ar         2.392071     2.500862     1.872029
 ============================================================
