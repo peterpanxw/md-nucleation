@@ -1,2 +1,3 @@
-def main() -> None:
-    print("Hello from md-nucleation!")
+from md_nucleation.cli.main import main
+
+__all__ = ["main"]

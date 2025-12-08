@@ -1,0 +1,31 @@
+============================================================
+MONTE CARLO SIMULATION RESULTS
+============================================================
+
+System Parameters:
+  Number of particles: 3
+  Box length: 20.0
+  Temperature: 300.0 K
+  Pressure: 1.0 bar
+  Total iterations: 1000
+
+Energy Statistics:
+  Final Energy: 167.967382
+  Average Energy: 2359.541664
+  Min Energy: 89.934121
+  Max Energy: 29059.449260
+
+Move Statistics:
+  Accepted moves: 445
+  Rejected moves: 55
+  Acceptance ratio: 0.8900
+
+============================================================
+Final Particle Positions:
+============================================================
+Type              X            Y            Z
+------------------------------------------------------------
+Ar        19.512390    19.589534    19.805558
+Ar         0.372731     1.774058     1.670729
+Ar         2.761712     2.135109     0.964165
+============================================================
