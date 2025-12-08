@@ -19,6 +19,14 @@ dependencies = [
 [project.scripts]
 md-nucleation = "md_nucleation:main"
 
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "coverage>=7.0.0",
+    "ruff>=0.1.0",
+    "pyright>=1.1.0",
+]
+
 [build-system]
 requires = ["uv_build>=0.8.15,<0.9.0"]
 build-backend = "uv_build"
