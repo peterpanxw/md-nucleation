@@ -8,7 +8,7 @@ authors = [
     { name = "Chinmay S.", email = ""},
     { name = "Xiewei P.", email = ""}
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 dependencies = [
     "numpy>=2.3.5",
     "pyyaml>=6.0.3",
