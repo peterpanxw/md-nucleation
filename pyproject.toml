@@ -33,7 +33,7 @@ build-backend = "uv_build"
 
 [tool.ruff]
 line-length = 88
-target-version = "py311"
+target-version = "py310"
 fix = true
 
 [tool.ruff.lint]
@@ -46,7 +46,7 @@ ignore = [
 quote-style = "double"
 
 [tool.pyright]
-pythonVersion = "3.11"
+pythonVersion = "3.10"
 include = ["src"]
 venvPath = "."
 venv = ".venv"
