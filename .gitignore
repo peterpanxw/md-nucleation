@@ -6,4 +6,4 @@ __pycache__/
 .DS_Store
 .env
 .vscode/
-example_mc_results.txt
+*results.txt

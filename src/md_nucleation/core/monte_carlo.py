@@ -82,13 +82,13 @@ def monte_carlo_move(system, max_displacement=0.1):
     num_particles = len(new_system.particles)
     particle_index = random.randint(0, num_particles - 1)
 
-    # Random displacement
-    displacement = (np.random.rand(3) - 0.5) * max_displacement
+    # Random displacement centered around 0, range [-0.5,0.5] * max
+    displacement = (np.random.rand(3) - 0.5) * max_displacement 
 
     # Update position
     new_pos = np.array(new_system.particles[particle_index].position) + displacement
 
-    # Apply periodic boundary conditions
+    # Periodic boundary conditions
     box_length = new_system.box.length
     new_pos = new_pos % box_length
 

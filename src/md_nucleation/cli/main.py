@@ -34,12 +34,12 @@ def run(
         results = run_monte_carlo_from_input(
             input_file=config, output_file=output, max_displacement=max_displacement
         )
-        typer.echo("\n✓ Simulation completed successfully!")
+        typer.echo("\nSimulation completed successfully!")
         typer.echo(f"Final energy: {results['final_energy']:.6f}")
         typer.echo(f"Acceptance ratio: {results['acceptance_ratio']:.4f}")
         typer.echo(f"Results saved to: {output}")
     except Exception as e:
-        typer.echo(f"\n✗ Simulation failed: {str(e)}", err=True)
+        typer.echo(f"\nSimulation failed: {str(e)}", err=True)
         raise typer.Exit(code=1)
 
 

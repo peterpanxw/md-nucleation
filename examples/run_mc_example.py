@@ -29,11 +29,11 @@ def create_simple_system():
         "t": "300",
         "p": "1.0",
         "positions": [
-            "A 2.0 2.0 2.0",
-            "A 5.0 5.0 5.0",
-            "A 8.0 8.0 8.0",
-            "A 11.0 11.0 11.0",
-            "A 13.0 13.0 13.0",
+            "Ar 2.0 2.0 2.0",
+            "Ar 5.0 5.0 5.0",
+            "Ar 8.0 8.0 8.0",
+            "Ar 11.0 11.0 11.0",
+            "Ar 13.0 13.0 13.0",
         ],
     }
 
@@ -42,57 +42,33 @@ def create_simple_system():
     return system
 
 
-def analyze_energy_convergence(energy_history):
-    """Analyze if the energy has converged."""
-    # Calculate moving average
-    window = 50
-    if len(energy_history) < window:
-        return None
-
-    moving_avg = np.convolve(energy_history, np.ones(window) / window, mode="valid")
-
-    # Check if the last portion is relatively stable
-    last_100 = moving_avg[-100:]
-    std_dev = np.std(last_100)
-    mean_energy = np.mean(last_100)
-
-    relative_std = std_dev / abs(mean_energy) if mean_energy != 0 else float("inf")
-
-    return {
-        "mean_energy": mean_energy,
-        "std_dev": std_dev,
-        "relative_std": relative_std,
-        "converged": relative_std < 0.05,  # 5% threshold
-    }
-
-
 def main():
     print("=" * 60)
     print("Monte Carlo Simulation Example")
     print("=" * 60)
     print()
+    script_dir = ""
 
-    # Option 1: Load from file
-    print("Option 1: Loading from input file...")
+
     try:
+    # Option 1: Load from file
         script_dir = os.path.dirname(os.path.abspath(__file__))
         input_path = os.path.join(script_dir, "input_minimal.txt")
         params = read_input_file(input_path)
+        print("Option 1: Loading from input file...")
         validate_parsed_input(params)
         system_from_file = build_system_from_input(params)
-        print(f"  ✓ Loaded {len(system_from_file.particles)} particles from file")
-        print(f"    Box length: {system_from_file.box.length}")
-        print(f"    Temperature: {system_from_file.T} K")
+        print(f"  Loaded {len(system_from_file.particles)} particles from file")
+        print(f"  Box length: {system_from_file.box.length}")
+        print(f"  Temperature: {system_from_file.T} K")
         system = system_from_file
     except FileNotFoundError:
-        print("  ⚠ Input file not found, using programmatic system...")
+    # Option 2: Create programmatic system
+        print("  Input file not found, using programmatic system...")
         system = create_simple_system()
+        print(f"Created system with {len(system.particles)} particles")
 
     print()
-
-    # Option 2: Or create programmatically
-    # system = create_simple_system()
-    # print(f"Created system with {len(system.particles)} particles")
 
     # Compute initial energy
     print("Computing initial system energy...")
@@ -102,7 +78,7 @@ def main():
 
     # Run Monte Carlo simulation
     print("Running Monte Carlo simulation...")
-    num_iterations = 500
+    num_iterations = 1000
     max_displacement = 0.1
 
     print(f"  Iterations: {num_iterations}")
@@ -121,24 +97,12 @@ def main():
     print("-" * 60)
     print(f"Final energy:      {results['final_energy']:12.6f}")
     print(f"Initial energy:    {initial_energy:12.6f}")
-    print(f"Energy change:     {results['final_energy'] - initial_energy:12.6f}")
+    print(f"Energy change:     {(results['final_energy'] - initial_energy):12.6f}")
     print()
     print(f"Accepted moves:    {results['accepted_moves']:6d}")
     print(f"Rejected moves:    {results['rejected_moves']:6d}")
     print(f"Acceptance ratio:  {results['acceptance_ratio']:8.4f}")
     print()
-
-    # Analyze convergence
-    convergence = analyze_energy_convergence(results["energy_history"])
-    if convergence:
-        print("Energy Convergence Analysis:")
-        print(f"  Mean energy (last 100): {convergence['mean_energy']:.6f}")
-        print(f"  Std deviation:          {convergence['std_dev']:.6f}")
-        print(f"  Relative std:           {convergence['relative_std']:.4f}")
-        print(
-            f"  Converged:              {'Yes' if convergence['converged'] else 'No'}"
-        )
-        print()
 
     # Energy statistics
     energy_hist = results["energy_history"]
@@ -153,7 +117,7 @@ def main():
     output_file = os.path.join(script_dir, "example_mc_results.txt")
     print(f"Saving results to '{output_file}'...")
     save_results(results, system, output_file)
-    print("  ✓ Results saved")
+    print("  Results saved")
     print()
 
     print("=" * 60)

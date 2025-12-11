@@ -5,13 +5,13 @@ Simulating Nucleation using Molecular Dynamics
 
 ```bash
 # Basic usage with default parameters
-md-nucleation run examples/input_minimal.txt
+md-nucleation examples/input_minimal.txt
 
 # Specify output file
-md-nucleation run examples/input_minimal.txt --output my_results.txt
+md-nucleation examples/input_minimal.txt --output my_results.txt
 
 # Adjust maximum displacement for MC moves
-md-nucleation run examples/input_minimal.txt --max-displacement 0.2
+md-nucleation examples/input_minimal.txt --max-displacement 0.2
 ```
 
 ## Input File Format
