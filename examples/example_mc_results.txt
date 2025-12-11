@@ -6,26 +6,25 @@ System Parameters:
   Number of particles: 3
   Box length: 20.0
   Temperature: 300.0 K
-  Pressure: 1.0 bar
   Total iterations: 1000
 
 Energy Statistics:
-  Final Energy: 12.313671
-  Average Energy: 1732.656508
-  Min Energy: 12.234371
-  Max Energy: 29373.317461
+  Final Energy: 26.154783
+  Average Energy: 2057.708944
+  Min Energy: 17.883001
+  Max Energy: 29081.244864
 
 Move Statistics:
-  Accepted moves: 911
-  Rejected moves: 89
-  Acceptance ratio: 0.9110
+  Accepted moves: 908
+  Rejected moves: 92
+  Acceptance ratio: 0.9080
 
 ============================================================
 Final Particle Positions:
 ============================================================
 Type              X            Y            Z
 ------------------------------------------------------------
-Ar        19.851691    19.362835    18.925272
-Ar         0.593477     1.113169     1.548638
-Ar         2.340810     2.784033     3.603422
+Ar         0.642965    18.327409    19.311316
+Ar         1.688879    19.552899     1.756571
+Ar         1.876655     2.777699     2.288387
 ============================================================

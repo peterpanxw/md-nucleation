@@ -3,6 +3,13 @@ Simulating Nucleation using Molecular Dynamics
 
 ## How to Use
 
+Install the project:
+```bash
+uv sync
+source .venv/bin/activate
+```
+
+Use the CLI to run the code:
 ```bash
 # Basic usage with default parameters
 md-nucleation examples/input_minimal.txt
@@ -14,6 +21,11 @@ md-nucleation examples/input_minimal.txt --output my_results.txt
 md-nucleation examples/input_minimal.txt --max-displacement 0.2
 ```
 
+Or run the example, which uses the provided `input_minimal.txt` by default:
+```bash
+python examples/run_mc_example.py
+```
+
 ## Input File Format
 
 Your input file should follow the standard format:
@@ -22,8 +34,7 @@ Your input file should follow the standard format:
 N 10                    # Number of particles
 L 20.0                  # Box length
 S 1000                  # Number of MC steps (iterations)
-T 300                   # Temperature (K)
-P 1.0                   # Pressure (bar)
+T 300                   # Temperature
 
 positions
 A 0.0 0.0 0.0          # Type X Y Z
@@ -50,8 +61,7 @@ MONTE CARLO SIMULATION RESULTS
 System Parameters:
   Number of particles: 10
   Box length: 20.0
-  Temperature: 300.0 K
-  Pressure: 1.0 bar
+  Temperature: 300.0
   Total iterations: 1000
 
 Energy Statistics:

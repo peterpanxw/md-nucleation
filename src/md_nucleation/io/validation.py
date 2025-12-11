@@ -81,12 +81,6 @@ def validate_parsed_input(params):
     except:
         raise ValueError("The temperature (T) must be a float.")
 
-    # --- Validate P --- #
-    try:
-        float(params["p"])
-    except:
-        raise ValueError("The pressure (P) must be a float.")
-
     # --- Validate positions block exists --- #
     if "positions" not in params:
         raise ValueError("Missing positions block ('positions').")

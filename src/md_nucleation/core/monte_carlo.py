@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import copy
 
 
 def compute_potential_energy(system):
@@ -74,7 +75,6 @@ def monte_carlo_move(system, max_displacement=0.1):
     System
         New system with updated particle position.
     """
-    import copy
 
     # Create a deep copy to avoid modifying the original
     new_system = copy.deepcopy(system)
@@ -121,7 +121,6 @@ def monte_carlo_simulation(system, num_iterations=1000, max_displacement=0.1):
         - 'acceptance_ratio' : float - Ratio of accepted to total moves
         - 'energy_history' : list - Energy at each iteration
     """
-    import copy
 
     # Work with a copy to avoid modifying the input
     current_system = copy.deepcopy(system)
@@ -138,7 +137,7 @@ def monte_carlo_simulation(system, num_iterations=1000, max_displacement=0.1):
     # Boltzmann constant (in appropriate units, here we use reduced units)
     kB = 1.0
 
-    for iteration in range(num_iterations):
+    for _ in range(num_iterations):
         # Propose a move
         new_system = monte_carlo_move(current_system, max_displacement)
         new_energy = compute_potential_energy(new_system)
@@ -152,7 +151,7 @@ def monte_carlo_simulation(system, num_iterations=1000, max_displacement=0.1):
             current_energy = new_energy
             accepted_moves += 1
         else:
-            # Accept with probability exp(-ΔE / kT)
+            # Accept with probability exp(-dE / kT)
             acceptance_probability = np.exp(-delta_energy / (kB * temperature))
             if random.random() < acceptance_probability:
                 current_system = new_system
@@ -230,7 +229,6 @@ def save_results(results, system, file_path):
         f.write(f"  Number of particles: {len(system.particles)}\n")
         f.write(f"  Box length: {system.box.length}\n")
         f.write(f"  Temperature: {system.T} K\n")
-        f.write(f"  Pressure: {system.P} bar\n")
         f.write(f"  Total iterations: {system.S}\n\n")
 
         # Energy statistics

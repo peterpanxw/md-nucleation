@@ -13,14 +13,13 @@ from md_nucleation.io.filereadwrite import (
 
 
 def test_parse_basic_fields():
-    data = ["N 5", "L 20.0", "s 1000", "T 300", "P 1.0"]
+    data = ["N 5", "L 20.0", "s 1000", "T 300"]
     params = parse_input(data)
 
     assert params["n"] == "5"
     assert params["l"] == "20.0"
     assert params["s"] == "1000"
     assert params["t"] == "300"
-    assert params["p"] == "1.0"
 
 
 # --- Test Parsing Positions Block --- #

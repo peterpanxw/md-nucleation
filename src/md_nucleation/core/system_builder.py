@@ -21,7 +21,6 @@ class System:
     particles: list
     box: CubicBox
     T: float
-    P: float
     S: int
     interaction_table: dict = None
 
@@ -53,7 +52,6 @@ def build_system_from_input(params, mass_table=None):
     L = float(params["l"])
     S = int(params["s"])
     T = float(params["t"])
-    P = float(params["p"])
 
     # --- Create box --- #
     box = CubicBox(length=L)
@@ -83,5 +81,5 @@ def build_system_from_input(params, mass_table=None):
     interaction_table = build_lj_interaction_table()
 
     return System(
-        particles=particles, box=box, T=T, P=P, S=S, interaction_table=interaction_table
+        particles=particles, box=box, T=T, S=S, interaction_table=interaction_table
     )

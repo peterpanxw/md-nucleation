@@ -23,8 +23,6 @@ def parse_input(data):
             Total number of MD time steps.
         - 't' : float
             Temperature in Kelvin.
-        - 'p' : float
-            Pressure in bar.
         - 'positions' : list of str
             Initial positions of atoms.
         - 'velocities' : list of str
@@ -39,7 +37,7 @@ def parse_input(data):
 
     Examples
     --------
-    >>> data = ["N 2", "L 10.0", "S 100", "T 300", "P 1.0"]
+    >>> data = ["N 2", "L 10.0", "S 100", "T 300"]
     >>> params = parse_input(data)
     >>> params["t"]
     '300'
@@ -57,7 +55,7 @@ def parse_input(data):
         keyword = line.split()[0].lower()
 
         # --- Single-value keywords --- #
-        if keyword in ["n", "l", "s", "t", "p"]:
+        if keyword in ["n", "l", "s", "t"]:
             parameter_dict[keyword] = line.split()[1]
             i += 1
 
